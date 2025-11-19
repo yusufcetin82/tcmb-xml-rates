@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="isokur.xsl"?>
+<Tarih_Date Tarih="17.11.2023" Date="11/17/2023"  Bulten_No="2023/216" >
+	<Currency CrossOrder="0" Kod="USD" CurrencyCode="USD">
+			<Unit>1</Unit>
+			<Isim>ABD DOLARI</Isim>
+			<CurrencyName>US DOLLAR</CurrencyName>
+			<ForexBuying>28.6145</ForexBuying>
+			<ForexSelling>28.6660</ForexSelling>
+			<BanknoteBuying>28.5944</BanknoteBuying>
+			<BanknoteSelling>28.7090</BanknoteSelling>
+			<CrossRateUSD/>
+			<CrossRateOther/>
+	</Currency>
+	<Currency CrossOrder="1" Kod="AUD" CurrencyCode="AUD">
+			<Unit>1</Unit>
+			<Isim>AVUSTRALYA DOLARI</Isim>
+			<CurrencyName>AUSTRALIAN DOLLAR</CurrencyName>
+			<ForexBuying>18.5226</ForexBuying>
+			<ForexSelling>18.6434</ForexSelling>
+			<BanknoteBuying>18.4374</BanknoteBuying>
+			<BanknoteSelling>18.7553</BanknoteSelling>
+			<CrossRateUSD>1.5410</CrossRateUSD>
+			<CrossRateOther/>
+	</Currency>
+</Tarih_Date>
+
