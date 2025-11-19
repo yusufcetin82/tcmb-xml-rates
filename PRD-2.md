@@ -1,7 +1,73 @@
+Süper, artık “gerçek” bir paket olduğuna göre onu biraz cilayalım. 😊
+Aşağıya direkt kopyalayıp kullanabileceğin metinler bırakıyorum.
+
+---
+
+## 1. GitHub “About” alanı için öneri
+
+**Description** (repo header’daki küçük açıklama):
+
+> Type-safe TCMB (Central Bank of Turkey) XML exchange rates client for Node.js & Next.js. Built-in caching, last business day fallback, and simple currency conversion.
+
+**Topics** (etiketler):
+
+```text
+tcmb
+exchange-rates
+currency
+turkey
+xml
+typescript
+nodejs
+nextjs
+financial
+forex
+```
+
+Bunlar GitHub aramasında güzel çalışır ve ne yaptığını net anlatır.
+
+---
+
+## 2. `package.json` için description + keywords
+
+`package.json` içine (muhtemelen zaten vardır ama daha “marketing” hale getirelim):
+
+```jsonc
+{
+  "name": "tcmb-xml-rates",
+  "version": "1.0.0",
+  "description": "A modern, type-safe TCMB (Central Bank of Turkey) XML exchange rates client for Node.js and Next.js with built-in caching and last business day fallback.",
+  "keywords": [
+    "tcmb",
+    "central bank of turkey",
+    "exchange rates",
+    "currency",
+    "forex",
+    "xml",
+    "turkey",
+    "node",
+    "nodejs",
+    "nextjs",
+    "typescript",
+    "ts",
+    "finance",
+    "doviz",
+    "kur"
+  ]
+}
+```
+
+---
+
+## 3. Güncellenmiş `README.md` (tam versiyon)
+
+Aşağıdakini direkt mevcut README’nin yerine koyabilirsin. İçindeki örnekler seninkinin üzerine kurulmuş durumda, sadece “Why this package?” ve birkaç ek bölüm ekledim.
+
+````md
 # tcmb-xml-rates
 
 [![npm version](https://img.shields.io/npm/v/tcmb-xml-rates.svg)](https://www.npmjs.com/package/tcmb-xml-rates)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 
 A modern, type-safe, and reliable Node.js package for fetching exchange rates from the Central Bank of the Republic of Turkey (TCMB).  
 Features built-in caching, automatic fallback to the last business day, and a promise-based API.
@@ -52,7 +118,7 @@ npm install tcmb-xml-rates
 yarn add tcmb-xml-rates
 # or
 pnpm add tcmb-xml-rates
-```
+````
 
 ---
 
@@ -389,3 +455,272 @@ This package is an **unofficial open-source project** and is **not affiliated** 
 ## License
 
 MIT
+
+````
+
+---
+
+## 4. Önerilen `README.tr.md` (tam versiyon)
+
+Şu anki Türkçe README’ye erişemedim, o yüzden aşağıya direkt “tam versiyon” bir taslak veriyorum. İstersen birebir değiştir, istersen bölümlerini mevcut dosyanın içine taşı.
+
+```md
+# tcmb-xml-rates (Türkçe)
+
+`tcmb-xml-rates`, TCMB’nin (Türkiye Cumhuriyet Merkez Bankası) yayınladığı **XML döviz kurlarını**  
+Node.js ve Next.js projelerinde modern, güvenilir ve **TypeScript destekli** bir yapıyla kullanmanı sağlar.
+
+- Dahili önbellekleme (in-memory cache)
+- Otomatik **son iş günü fallback** (hafta sonu / resmi tatil)
+- Promise tabanlı, TypeScript tipleri hazır bir API
+
+---
+
+## Neden bu paket?
+
+Piyasada TCMB için yazılmış bazı npm paketleri var; ancak çoğu:
+
+- çok eski (callback veya sadece CommonJS),
+- TypeScript tipi sunmuyor,
+- hafta sonu / resmi tatil mantığını ya hiç düşünmüyor ya da zayıf uyguluyor.
+
+`tcmb-xml-rates` ile amaç:
+
+- **Modern** (ESM + CJS, TS-first),
+- **Güvenilir** (iş günü fallback + cache),
+- **Kolay entegre edilebilir** (Next.js route handler, server component, cron script)  
+bir çözüm sunmak.
+
+---
+
+## Özellikler
+
+- **Modern & Hafif**  
+  Promise tabanlı API, ESM + CJS desteği, minimum bağımlılık.
+
+- **TypeScript Dostu**  
+  Tam tip tanımları ile geliyor.
+
+- **Güvenilir**  
+  İstenilen tarihte veri yoksa (hafta sonu / resmi tatil), otomatik olarak **bir önceki iş gününün** kurlarını getirir (isteğe bağlı kapatılabilir).
+
+- ⚡ **Hızlı**  
+  Aynı URL için gereksiz istekleri engelleyen dahili in-memory cache.
+
+- **Kullanışlı yardımcılar**  
+  Kolay kur dönüştürme (`convert`) ve döviz listesi alma (`listCurrencies`) fonksiyonları.
+
+---
+
+## Kurulum
+
+```bash
+npm install tcmb-xml-rates
+# veya
+yarn add tcmb-xml-rates
+# veya
+pnpm add tcmb-xml-rates
+````
+
+---
+
+## Hızlı Başlangıç
+
+```ts
+import { getRate, convert } from 'tcmb-xml-rates';
+
+// Bugünkü USD kurunu al (gerekirse son iş gününe fallback yapar)
+const usd = await getRate('USD');
+
+console.log('USD Alış:', usd?.forexBuying);
+console.log('USD Satış:', usd?.forexSelling);
+
+// 100 USD'yi TL'ye çevir
+const tryAmount = await convert(100, 'USD', 'TRY');
+console.log(`100 USD = ${tryAmount} TL`);
+```
+
+---
+
+## Kullanım
+
+### 1. Bugünkü Kurları Getir
+
+```ts
+import { getRates } from 'tcmb-xml-rates';
+
+const rates = await getRates();
+console.log(rates);
+// Örnek: [{ code: 'USD', forexBuying: 28.61, ... }, ...]
+```
+
+* Bugün veri yoksa (örneğin Pazar günü) otomatik olarak **bir önceki iş günü** kullanılır.
+
+---
+
+### 2. Tek Bir Dövizin Kurunu Getir
+
+```ts
+import { getRate } from 'tcmb-xml-rates';
+
+const eur = await getRate('EUR');
+
+console.log('EUR Alış:', eur?.forexBuying);
+console.log('EUR Satış:', eur?.forexSelling);
+```
+
+---
+
+### 3. Kur Dönüştürme
+
+```ts
+import { convert } from 'tcmb-xml-rates';
+
+// 100 EUR → TL
+const tryAmount = await convert(100, 'EUR', 'TRY');
+
+// 500 TL → USD
+const usdAmount = await convert(500, 'TRY', 'USD');
+
+// 200 EUR → USD (önce TL, sonra USD üzerinden çapraz kur)
+const eurToUsd = await convert(200, 'EUR', 'USD');
+
+console.log({ tryAmount, usdAmount, eurToUsd });
+```
+
+İstersen hangi alanı kullanacağını (`forexSelling`, `banknoteBuying` vs.) opsiyonlarla belirleyebilirsin.
+
+---
+
+### 4. Tarihli Veri & İş Günü Fallback
+
+```ts
+import { getRates } from 'tcmb-xml-rates';
+
+const istediginTarih = '2025-11-16'; // Pazar diyelim
+
+const rates = await getRates({ date: istediginTarih });
+
+const actualDate = rates[0].date; // Örn: '2025-11-14' (Cuma)
+
+if (actualDate !== istediginTarih) {
+  console.log(
+    `${istediginTarih} için veri yok. Son iş günü ${actualDate} kullanıldı.`
+  );
+}
+```
+
+Fallback’i kapatmak istersen:
+
+```ts
+const rates = await getRates({
+  date: '2025-11-16',
+  fallbackToLastBusinessDay: false,
+}); // Veri yoksa hata fırlatır
+```
+
+---
+
+## Opsiyonlar
+
+```ts
+export interface GetRatesOptions {
+  date?: Date | string;          // Belirli gün. Örn: '2025-11-19'
+  rateType?: 'forex' | 'banknote' | 'all';
+  fallbackToLastBusinessDay?: boolean; // Varsayılan: true
+  cache?: boolean;               // Varsayılan: true
+}
+```
+
+---
+
+## Next.js ile Kullanım (App Router)
+
+Bu paket, Next.js içinde **server-side** kullanım için tasarlanmıştır
+(Server Components, Route Handlers, Server Actions). Böylece:
+
+* CORS problemleri yaşamazsın,
+* iç ağ mantığını / config’ini client tarafına sızdırmamış olursun.
+
+### Server Component Örneği
+
+```tsx
+// app/page.tsx
+import { getRate } from 'tcmb-xml-rates';
+
+export default async function Page() {
+  const usd = await getRate('USD');
+
+  return (
+    <main>
+      <h1>Döviz Kurları</h1>
+      <p>1 USD = {usd?.forexSelling} TL</p>
+    </main>
+  );
+}
+```
+
+---
+
+### Route Handler Örneği
+
+```ts
+// app/api/rates/route.ts
+import { getRates } from 'tcmb-xml-rates';
+import { NextResponse } from 'next/server';
+
+export async function GET() {
+  try {
+    const rates = await getRates();
+    return NextResponse.json(rates);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: 'Kurlar alınırken bir hata oluştu' },
+      { status: 500 }
+    );
+  }
+}
+```
+
+---
+
+## En İyi Pratikler
+
+* **Her istekte TCMB’ye gitme.**
+  Dahili cache’i ve/veya kendi cache katmanını (Redis, KV, veritabanı) kullan.
+
+* **Server-side kullan.**
+  Tarayıcıdan doğrudan TCMB endpoint’ine çağrı yapmak yerine, backend veya Next.js API route üzerinden çağır.
+
+* **TCMB güncellemelerini gerçek zamanlı değil, günlük düşün.**
+  Bu veri daha çok günlük raporlama ve fiyatlama için uygundur, high-frequency trading için değil. 🙂
+
+---
+
+## Uyarı & Teşekkür
+
+Bu paket **resmi değildir** ve TCMB (Türkiye Cumhuriyet Merkez Bankası) ile **hiçbir bağlantısı yoktur**.
+
+* **Veri kaynağı:** Tüm kurlar doğrudan TCMB’nin resmi XML servisinden çekilir.
+* **Kullanım koşulları:** Lütfen TCMB’nin sitesindeki resmi şartları ve yasal uyarıları inceleyin.
+* **Teşekkür:** Bu veriyi kamuya açık sunduğu için TCMB’ye teşekkürler.
+
+---
+
+## Lisans
+
+MIT
+
+```
+
+---
+
+Eğer istersen bir sonraki adımda:
+
+- basit bir GitHub Actions workflow (test + build + release),
+- veya kısa bir örnek “cron script” (günlük kurları alıp DB’ye yazan)  
+
+için de hazır dosya şablonları çıkartabilirim.
+::contentReference[oaicite:0]{index=0}
+```

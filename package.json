@@ -1,7 +1,7 @@
 {
   "name": "tcmb-xml-rates",
   "version": "1.0.0",
-  "description": "TCMB Kur Paketi - Modern, Type-safe, Promise-based. Fetches exchange rates from Central Bank of the Republic of Turkey.",
+  "description": "A modern, type-safe TCMB (Central Bank of Turkey) XML exchange rates client for Node.js and Next.js with built-in caching and last business day fallback.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -25,19 +25,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/YOUR_USERNAME/tcmb-xml-rates.git"
+    "url": "https://github.com/yusufcetin82/tcmb-xml-rates.git"
   },
   "keywords": [
     "tcmb",
-    "kurlar",
-    "exchange-rates",
-    "central-bank",
-    "turkey",
-    "try",
+    "central bank of turkey",
+    "exchange rates",
     "currency",
-    "döviz",
-    "merkez-bankası",
-    "xml"
+    "forex",
+    "xml",
+    "turkey",
+    "node",
+    "nodejs",
+    "nextjs",
+    "typescript",
+    "ts",
+    "finance",
+    "doviz",
+    "kur"
   ],
   "author": "",
   "license": "MIT",

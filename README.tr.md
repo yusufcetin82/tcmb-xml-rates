@@ -1,17 +1,52 @@
-# tcmb-xml-rates
+# tcmb-xml-rates (Türkçe)
 
 [![npm version](https://img.shields.io/npm/v/tcmb-xml-rates.svg)](https://www.npmjs.com/package/tcmb-xml-rates)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-Türkiye Cumhuriyet Merkez Bankası (TCMB) döviz kurlarını çekmek için geliştirilmiş modern, tip güvenli ve güvenilir bir Node.js paketi. Önbellekleme (caching), resmi tatillerde son iş gününe otomatik geri düşme (fallback) ve Promise tabanlı yapı sunar.
+`tcmb-xml-rates`, TCMB’nin (Türkiye Cumhuriyet Merkez Bankası) yayınladığı **XML döviz kurlarını**  
+Node.js ve Next.js projelerinde modern, güvenilir ve **TypeScript destekli** bir yapıyla kullanmanı sağlar.
+
+- Dahili önbellekleme (in-memory cache)
+- Otomatik **son iş günü fallback** (hafta sonu / resmi tatil)
+- Promise tabanlı, TypeScript tipleri hazır bir API
+
+---
+
+## Neden bu paket?
+
+Piyasada TCMB için yazılmış bazı npm paketleri var; ancak çoğu:
+
+- çok eski (callback veya sadece CommonJS),
+- TypeScript tipi sunmuyor,
+- hafta sonu / resmi tatil mantığını ya hiç düşünmüyor ya da zayıf uyguluyor.
+
+`tcmb-xml-rates` ile amaç:
+
+- **Modern** (ESM + CJS, TS-first),
+- **Güvenilir** (iş günü fallback + cache),
+- **Kolay entegre edilebilir** (Next.js route handler, server component, cron script)  
+bir çözüm sunmak.
+
+---
 
 ## Özellikler
 
-*   🚀 **Modern & Hafif:** Promise tabanlı API, ESM + CJS desteği, minimal bağımlılık.
-*   🛡️ **Tip Güvenli:** TypeScript ile yazılmıştır, tam tip desteği sunar.
-*   🔄 **Güvenilir:** Hafta sonu veya resmi tatillerde otomatik olarak bir önceki iş gününün verisini getirir (Fallback).
-*   ⚡ **Hızlı:** Gereksiz ağ isteklerini önlemek için dahili in-memory önbellekleme (cache) sunar.
-*   💱 **Araçlar:** Kolay döviz çevirici ve kur listeleme fonksiyonları.
+- **Modern & Hafif**  
+  Promise tabanlı API, ESM + CJS desteği, minimum bağımlılık.
+
+- **TypeScript Dostu**  
+  Tam tip tanımları ile geliyor.
+
+- **Güvenilir**  
+  İstenilen tarihte veri yoksa (hafta sonu / resmi tatil), otomatik olarak **bir önceki iş gününün** kurlarını getirir (isteğe bağlı kapatılabilir).
+
+- ⚡ **Hızlı**  
+  Aynı URL için gereksiz istekleri engelleyen dahili in-memory cache.
+
+- **Kullanışlı yardımcılar**  
+  Kolay kur dönüştürme (`convert`) ve döviz listesi alma (`listCurrencies`) fonksiyonları.
+
+---
 
 ## Kurulum
 
@@ -23,89 +58,127 @@ yarn add tcmb-xml-rates
 pnpm add tcmb-xml-rates
 ```
 
+---
+
+## Hızlı Başlangıç
+
+```ts
+import { getRate, convert } from 'tcmb-xml-rates';
+
+// Bugünkü USD kurunu al (gerekirse son iş gününe fallback yapar)
+const usd = await getRate('USD');
+
+console.log('USD Alış:', usd?.forexBuying);
+console.log('USD Satış:', usd?.forexSelling);
+
+// 100 USD'yi TL'ye çevir
+const tryAmount = await convert(100, 'USD', 'TRY');
+console.log(`100 USD = ${tryAmount} TL`);
+```
+
+---
+
 ## Kullanım
 
-### 1. Güncel Kurları Getir
+### 1. Bugünkü Kurları Getir
 
-En güncel kurları çeker. Eğer bugün haftasonu ise veya kurlar henüz açıklanmadıysa, varsayılan olarak son iş gününün verisini döner.
-
-```typescript
+```ts
 import { getRates } from 'tcmb-xml-rates';
 
 const rates = await getRates();
 console.log(rates);
-// Çıktı: [{ code: 'USD', forexBuying: 28.61, ... }, ...]
+// Örnek: [{ code: 'USD', forexBuying: 28.61, ... }, ...]
 ```
 
-### 2. Tek Bir Kur Getir
+* Bugün veri yoksa (örneğin Pazar günü) otomatik olarak **bir önceki iş günü** kullanılır.
 
-```typescript
+---
+
+### 2. Tek Bir Dövizin Kurunu Getir
+
+```ts
 import { getRate } from 'tcmb-xml-rates';
 
-const usd = await getRate('USD');
-console.log(`Dolar Alış: ${usd?.forexBuying}`);
-console.log(`Dolar Satış: ${usd?.forexSelling}`);
+const eur = await getRate('EUR');
+
+console.log('EUR Alış:', eur?.forexBuying);
+console.log('EUR Satış:', eur?.forexSelling);
 ```
 
-### 3. Döviz Çevirici (Convert)
+---
 
-TRY ile döviz arasında veya iki farklı döviz arasında (Çapraz Kur) çeviri yapın.
+### 3. Kur Dönüştürme
 
-```typescript
+```ts
 import { convert } from 'tcmb-xml-rates';
 
-// 100 USD -> TRY
-const tryAmount = await convert(100, 'USD', 'TRY');
-console.log(`100 USD = ${tryAmount} TRY`);
+// 100 EUR → TL
+const tryAmount = await convert(100, 'EUR', 'TRY');
 
-// 500 EUR -> USD (Çapraz kur hesabı ile)
-const usdAmount = await convert(500, 'EUR', 'USD');
-console.log(`500 EUR = ${usdAmount} USD`);
+// 500 TL → USD
+const usdAmount = await convert(500, 'TRY', 'USD');
+
+// 200 EUR → USD (önce TL, sonra USD üzerinden çapraz kur)
+const eurToUsd = await convert(200, 'EUR', 'USD');
+
+console.log({ tryAmount, usdAmount, eurToUsd });
 ```
 
-### 4. Geçmiş Tarihli Veri ve Fallback Mantığı
+İstersen hangi alanı kullanacağını (`forexSelling`, `banknoteBuying` vs.) opsiyonlarla belirleyebilirsin.
 
-Belirli bir tarihin kurlarını çekebilirsiniz. Paket, hafta sonu ve resmi tatilleri otomatik yönetir.
+---
 
-**Fallback Nasıl Çalışır?**
-Eğer resmi kur verisi olmayan bir gün (örneğin Pazar) isterseniz, paket otomatik olarak **bir önceki iş gününün** (örneğin Cuma) verisini getirir.
+### 4. Tarihli Veri & İş Günü Fallback
 
-Dönen verinin içindeki `date` alanına bakarak fallback olup olmadığını anlayabilirsiniz.
-
-```typescript
+```ts
 import { getRates } from 'tcmb-xml-rates';
 
-// Pazar günü için istek atalım (Örn: 16 Kasım 2025)
-const requestedDate = '2025-11-16'; 
-const rates = await getRates({ date: requestedDate });
+const istediginTarih = '2025-11-16'; // Pazar diyelim
 
-const rateDate = rates[0].date; // '2025-11-14' (Cuma)
+const rates = await getRates({ date: istediginTarih });
 
-if (requestedDate !== rateDate) {
-  console.log(`Bilgi: ${requestedDate} tarihli veri yok. ${rateDate} verisi getirildi.`);
+const actualDate = rates[0].date; // Örn: '2025-11-14' (Cuma)
+
+if (actualDate !== istediginTarih) {
+  console.log(
+    `${istediginTarih} için veri yok. Son iş günü ${actualDate} kullanıldı.`
+  );
 }
 ```
 
-### Seçenekler (Options)
+Fallback’i kapatmak istersen:
 
-Çoğu fonksiyon aşağıdaki ayar objesini kabul eder:
+```ts
+const rates = await getRates({
+  date: '2025-11-16',
+  fallbackToLastBusinessDay: false,
+}); // Veri yoksa hata fırlatır
+```
 
-```typescript
-interface GetRatesOptions {
-  date?: Date | string;          // Belirli tarih (default: bugün)
-  rateType?: 'forex' | 'banknote' | 'all'; // Kur tipi filtreleme
-  fallbackToLastBusinessDay?: boolean; // Default: true. False ise tatillerde hata fırlatır.
-  cache?: boolean;               // Önbellekleme (default: true)
+---
+
+## Opsiyonlar
+
+```ts
+export interface GetRatesOptions {
+  date?: Date | string;          // Belirli gün. Örn: '2025-11-19'
+  rateType?: 'forex' | 'banknote' | 'all';
+  fallbackToLastBusinessDay?: boolean; // Varsayılan: true
+  cache?: boolean;               // Varsayılan: true
 }
 ```
 
-## Next.js Entegrasyonu (App Router)
+---
 
-Bu paket, CORS sorunlarını ve API anahtarı güvenliğini (bu pakette key yok ama best practice olarak) sağlamak için Next.js'de **server-side** (Server Components, Route Handlers veya Server Actions) tarafında kullanılmak üzere tasarlanmıştır.
+## Next.js ile Kullanım (App Router)
+
+Bu paket, Next.js içinde **server-side** kullanım için tasarlanmıştır
+(Server Components, Route Handlers, Server Actions). Böylece:
+
+* CORS problemleri yaşamazsın,
+* iç ağ mantığını / config’ini client tarafına sızdırmamış olursun.
 
 ### Server Component Örneği
-
-Sayfa render edilirken veriyi sunucuda çeker.
 
 ```tsx
 // app/page.tsx
@@ -123,9 +196,9 @@ export default async function Page() {
 }
 ```
 
-### Route Handler Örneği
+---
 
-Frontend tarafına (Client Component) veri sağlamak için bir API endpoint'i oluşturun.
+### Route Handler Örneği
 
 ```ts
 // app/api/rates/route.ts
@@ -137,18 +210,39 @@ export async function GET() {
     const rates = await getRates();
     return NextResponse.json(rates);
   } catch (error) {
-    return NextResponse.json({ error: 'Kurlar çekilemedi' }, { status: 500 });
+    console.error(error);
+    return NextResponse.json(
+      { error: 'Kurlar alınırken bir hata oluştu' },
+      { status: 500 }
+    );
   }
 }
 ```
 
-## Feragatname ve Teşekkür (Disclaimer & Credits)
+---
 
-Bu paket **resmi olmayan (unofficial)** bir açık kaynak projesidir ve Türkiye Cumhuriyet Merkez Bankası (TCMB) ile doğrudan bir ilişkisi yoktur.
+## En İyi Pratikler
 
-*   **Veri Kaynağı:** Tüm döviz kuru verileri doğrudan resmi [TCMB XML servisi](https://www.tcmb.gov.tr/kurlar/today.xml) üzerinden çekilmektedir.
-*   **Kullanım Koşulları:** Veri kullanımıyla ilgili koşullar için lütfen TCMB'nin resmi web sitesini ziyaret ediniz.
-*   **Teşekkür:** Bu veriyi şeffaf bir şekilde kamuya sundukları için **TCMB (Türkiye Cumhuriyet Merkez Bankası)**'na teşekkür ederiz.
+* **Her istekte TCMB’ye gitme.**
+  Dahili cache’i ve/veya kendi cache katmanını (Redis, KV, veritabanı) kullan.
+
+* **Server-side kullan.**
+  Tarayıcıdan doğrudan TCMB endpoint’ine çağrı yapmak yerine, backend veya Next.js API route üzerinden çağır.
+
+* **TCMB güncellemelerini gerçek zamanlı değil, günlük düşün.**
+  Bu veri daha çok günlük raporlama ve fiyatlama için uygundur, high-frequency trading için değil. 🙂
+
+---
+
+## Uyarı & Teşekkür
+
+Bu paket **resmi değildir** ve TCMB (Türkiye Cumhuriyet Merkez Bankası) ile **hiçbir bağlantısı yoktur**.
+
+* **Veri kaynağı:** Tüm kurlar doğrudan TCMB’nin resmi XML servisinden çekilir.
+* **Kullanım koşulları:** Lütfen TCMB’nin sitesindeki resmi şartları ve yasal uyarıları inceleyin.
+* **Teşekkür:** Bu veriyi kamuya açık sunduğu için TCMB’ye teşekkürler.
+
+---
 
 ## Lisans
 
