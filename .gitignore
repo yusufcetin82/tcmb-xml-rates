@@ -3,9 +3,10 @@ dist
 .DS_Store
 .env
 coverage
-PRD.md
-PRD-2.md
 *.log
 .idea
 .vscode
-.gitignore
+
+# Project Documentation
+PRD.md
+PRD-2.md
