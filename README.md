@@ -1,5 +1,8 @@
 # tcmb-xml-rates
 
+[![npm version](https://img.shields.io/npm/v/tcmb-xml-rates.svg)](https://www.npmjs.com/package/tcmb-xml-rates)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A modern, type-safe, and reliable Node.js package for fetching exchange rates from the **Central Bank of the Republic of Turkey (TCMB)**. Features built-in caching, automatic fallback to the last business day, and a promise-based API.
 
 ## Features

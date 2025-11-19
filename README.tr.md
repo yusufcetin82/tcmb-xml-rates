@@ -1,5 +1,8 @@
 # tcmb-xml-rates
 
+[![npm version](https://img.shields.io/npm/v/tcmb-xml-rates.svg)](https://www.npmjs.com/package/tcmb-xml-rates)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Türkiye Cumhuriyet Merkez Bankası (TCMB) döviz kurlarını çekmek için geliştirilmiş modern, tip güvenli ve güvenilir bir Node.js paketi. Önbellekleme (caching), resmi tatillerde son iş gününe otomatik geri düşme (fallback) ve Promise tabanlı yapı sunar.
 
 ## Özellikler
