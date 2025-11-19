@@ -60,14 +60,27 @@ const usdAmount = await convert(500, 'EUR', 'USD');
 console.log(`500 EUR = ${usdAmount} USD`);
 ```
 
-### 4. Geçmiş Tarihli Veri
+### 4. Geçmiş Tarihli Veri ve Fallback Mantığı
 
-Belirli bir tarihin kurlarını çekin.
+Belirli bir tarihin kurlarını çekebilirsiniz. Paket, hafta sonu ve resmi tatilleri otomatik yönetir.
+
+**Fallback Nasıl Çalışır?**
+Eğer resmi kur verisi olmayan bir gün (örneğin Pazar) isterseniz, paket otomatik olarak **bir önceki iş gününün** (örneğin Cuma) verisini getirir.
+
+Dönen verinin içindeki `date` alanına bakarak fallback olup olmadığını anlayabilirsiniz.
 
 ```typescript
 import { getRates } from 'tcmb-xml-rates';
 
-const rates = await getRates({ date: '2023-05-15' });
+// Pazar günü için istek atalım (Örn: 16 Kasım 2025)
+const requestedDate = '2025-11-16'; 
+const rates = await getRates({ date: requestedDate });
+
+const rateDate = rates[0].date; // '2025-11-14' (Cuma)
+
+if (requestedDate !== rateDate) {
+  console.log(`Bilgi: ${requestedDate} tarihli veri yok. ${rateDate} verisi getirildi.`);
+}
 ```
 
 ### Seçenekler (Options)
@@ -78,7 +91,7 @@ const rates = await getRates({ date: '2023-05-15' });
 interface GetRatesOptions {
   date?: Date | string;          // Belirli tarih (default: bugün)
   rateType?: 'forex' | 'banknote' | 'all'; // Kur tipi filtreleme
-  fallbackToLastBusinessDay?: boolean; // İş günü fallback'i (default: true)
+  fallbackToLastBusinessDay?: boolean; // Default: true. False ise tatillerde hata fırlatır.
   cache?: boolean;               // Önbellekleme (default: true)
 }
 ```

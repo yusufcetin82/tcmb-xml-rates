@@ -60,14 +60,27 @@ const usdAmount = await convert(500, 'EUR', 'USD');
 console.log(`500 EUR is ${usdAmount} USD`);
 ```
 
-### 4. Historical Data
+### 4. Historical Data & Fallback Logic
 
-Fetch rates for a specific date.
+You can fetch rates for a specific date. The package automatically handles holidays and weekends.
+
+**How Fallback Works:**
+If you request a date (e.g., Sunday) where no official rates exist, the package automatically fetches the data from the **previous business day** (e.g., Friday).
+
+You can detect if a fallback occurred by checking the `date` field in the response.
 
 ```typescript
 import { getRates } from 'tcmb-xml-rates';
 
-const rates = await getRates({ date: '2023-05-15' });
+// Requesting rates for a Sunday (e.g., 16 Nov 2025)
+const requestedDate = '2025-11-16'; 
+const rates = await getRates({ date: requestedDate });
+
+const rateDate = rates[0].date; // '2025-11-14' (Friday)
+
+if (requestedDate !== rateDate) {
+  console.log(`Notice: No data for ${requestedDate}. Returned data from ${rateDate}.`);
+}
 ```
 
 ### Options
@@ -78,7 +91,7 @@ Most functions accept an options object:
 interface GetRatesOptions {
   date?: Date | string;          // Specific date (default: today)
   rateType?: 'forex' | 'banknote' | 'all'; // Filter rate types
-  fallbackToLastBusinessDay?: boolean; // Default: true
+  fallbackToLastBusinessDay?: boolean; // Default: true. If false, throws error on holidays.
   cache?: boolean;               // Default: true
 }
 ```
