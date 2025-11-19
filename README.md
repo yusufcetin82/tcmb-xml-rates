@@ -1,6 +1,6 @@
-# @tcmb/kurlar
+# tcmb-xml-rates
 
-A modern, type-safe, and reliable Node.js package for fetching exchange rates from the Central Bank of the Republic of Turkey (TCMB). Features built-in caching, automatic fallback to the last business day, and promise-based API.
+A modern, type-safe, and reliable Node.js package for fetching exchange rates from the **Central Bank of the Republic of Turkey (TCMB)**. Features built-in caching, automatic fallback to the last business day, and a promise-based API.
 
 ## Features
 
@@ -13,11 +13,11 @@ A modern, type-safe, and reliable Node.js package for fetching exchange rates fr
 ## Installation
 
 ```bash
-npm install @tcmb/kurlar
+npm install tcmb-xml-rates
 # or
-yarn add @tcmb/kurlar
+yarn add tcmb-xml-rates
 # or
-pnpm add @tcmb/kurlar
+pnpm add tcmb-xml-rates
 ```
 
 ## Usage
@@ -27,7 +27,7 @@ pnpm add @tcmb/kurlar
 Fetches the latest available rates. If today is a holiday or weekend, it intelligently fetches the last available business day's data by default.
 
 ```typescript
-import { getRates } from '@tcmb/kurlar';
+import { getRates } from 'tcmb-xml-rates';
 
 const rates = await getRates();
 console.log(rates);
@@ -37,7 +37,7 @@ console.log(rates);
 ### 2. Get Specific Currency Rate
 
 ```typescript
-import { getRate } from '@tcmb/kurlar';
+import { getRate } from 'tcmb-xml-rates';
 
 const usd = await getRate('USD');
 console.log(`USD Buying: ${usd?.forexBuying}`);
@@ -49,7 +49,7 @@ console.log(`USD Selling: ${usd?.forexSelling}`);
 Easily convert between TRY and foreign currencies, or between two foreign currencies (Cross Rate via TRY).
 
 ```typescript
-import { convert } from '@tcmb/kurlar';
+import { convert } from 'tcmb-xml-rates';
 
 // Convert 100 USD to TRY
 const tryAmount = await convert(100, 'USD', 'TRY');
@@ -65,7 +65,7 @@ console.log(`500 EUR is ${usdAmount} USD`);
 Fetch rates for a specific date.
 
 ```typescript
-import { getRates } from '@tcmb/kurlar';
+import { getRates } from 'tcmb-xml-rates';
 
 const rates = await getRates({ date: '2023-05-15' });
 ```
@@ -91,7 +91,7 @@ This package is designed to be used primarily on the **server-side** (Server Com
 
 ```tsx
 // app/page.tsx
-import { getRate } from '@tcmb/kurlar';
+import { getRate } from 'tcmb-xml-rates';
 
 export default async function Page() {
   const usd = await getRate('USD');
@@ -111,7 +111,7 @@ Create an API endpoint to serve rates to your client-side components.
 
 ```ts
 // app/api/rates/route.ts
-import { getRates } from '@tcmb/kurlar';
+import { getRates } from 'tcmb-xml-rates';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -124,7 +124,14 @@ export async function GET() {
 }
 ```
 
+## Disclaimer & Credits
+
+This package is an **unofficial** open-source project and is not affiliated with the Central Bank of the Republic of Turkey (TCMB).
+
+*   **Data Source:** All exchange rate data is fetched directly from the official [TCMB XML service](https://www.tcmb.gov.tr/kurlar/today.xml).
+*   **Terms of Use:** Please refer to TCMB's official website for terms of use regarding their data.
+*   **Gratitude:** We thank **TCMB (Türkiye Cumhuriyet Merkez Bankası)** for providing this public service transparency.
+
 ## License
 
 MIT
-

@@ -1,7 +1,7 @@
 {
-  "name": "@tcmb/kurlar",
+  "name": "tcmb-xml-rates",
   "version": "1.0.0",
-  "description": "TCMB Kur Paketi - Modern, Type-safe, Promise-based",
+  "description": "TCMB Kur Paketi - Modern, Type-safe, Promise-based. Fetches exchange rates from Central Bank of the Republic of Turkey.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -22,6 +22,10 @@
     "test": "vitest",
     "lint": "tsc --noEmit"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USERNAME/tcmb-xml-rates.git"
+  },
   "keywords": [
     "tcmb",
     "kurlar",
@@ -29,7 +33,10 @@
     "central-bank",
     "turkey",
     "try",
-    "currency"
+    "currency",
+    "döviz",
+    "merkez-bankası",
+    "xml"
   ],
   "author": "",
   "license": "MIT",

@@ -1,4 +1,4 @@
-# @tcmb/kurlar
+# tcmb-xml-rates
 
 Türkiye Cumhuriyet Merkez Bankası (TCMB) döviz kurlarını çekmek için geliştirilmiş modern, tip güvenli ve güvenilir bir Node.js paketi. Önbellekleme (caching), resmi tatillerde son iş gününe otomatik geri düşme (fallback) ve Promise tabanlı yapı sunar.
 
@@ -13,11 +13,11 @@ Türkiye Cumhuriyet Merkez Bankası (TCMB) döviz kurlarını çekmek için geli
 ## Kurulum
 
 ```bash
-npm install @tcmb/kurlar
+npm install tcmb-xml-rates
 # veya
-yarn add @tcmb/kurlar
+yarn add tcmb-xml-rates
 # veya
-pnpm add @tcmb/kurlar
+pnpm add tcmb-xml-rates
 ```
 
 ## Kullanım
@@ -27,7 +27,7 @@ pnpm add @tcmb/kurlar
 En güncel kurları çeker. Eğer bugün haftasonu ise veya kurlar henüz açıklanmadıysa, varsayılan olarak son iş gününün verisini döner.
 
 ```typescript
-import { getRates } from '@tcmb/kurlar';
+import { getRates } from 'tcmb-xml-rates';
 
 const rates = await getRates();
 console.log(rates);
@@ -37,7 +37,7 @@ console.log(rates);
 ### 2. Tek Bir Kur Getir
 
 ```typescript
-import { getRate } from '@tcmb/kurlar';
+import { getRate } from 'tcmb-xml-rates';
 
 const usd = await getRate('USD');
 console.log(`Dolar Alış: ${usd?.forexBuying}`);
@@ -49,7 +49,7 @@ console.log(`Dolar Satış: ${usd?.forexSelling}`);
 TRY ile döviz arasında veya iki farklı döviz arasında (Çapraz Kur) çeviri yapın.
 
 ```typescript
-import { convert } from '@tcmb/kurlar';
+import { convert } from 'tcmb-xml-rates';
 
 // 100 USD -> TRY
 const tryAmount = await convert(100, 'USD', 'TRY');
@@ -65,7 +65,7 @@ console.log(`500 EUR = ${usdAmount} USD`);
 Belirli bir tarihin kurlarını çekin.
 
 ```typescript
-import { getRates } from '@tcmb/kurlar';
+import { getRates } from 'tcmb-xml-rates';
 
 const rates = await getRates({ date: '2023-05-15' });
 ```
@@ -93,7 +93,7 @@ Sayfa render edilirken veriyi sunucuda çeker.
 
 ```tsx
 // app/page.tsx
-import { getRate } from '@tcmb/kurlar';
+import { getRate } from 'tcmb-xml-rates';
 
 export default async function Page() {
   const usd = await getRate('USD');
@@ -113,7 +113,7 @@ Frontend tarafına (Client Component) veri sağlamak için bir API endpoint'i ol
 
 ```ts
 // app/api/rates/route.ts
-import { getRates } from '@tcmb/kurlar';
+import { getRates } from 'tcmb-xml-rates';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -126,7 +126,14 @@ export async function GET() {
 }
 ```
 
+## Feragatname ve Teşekkür (Disclaimer & Credits)
+
+Bu paket **resmi olmayan (unofficial)** bir açık kaynak projesidir ve Türkiye Cumhuriyet Merkez Bankası (TCMB) ile doğrudan bir ilişkisi yoktur.
+
+*   **Veri Kaynağı:** Tüm döviz kuru verileri doğrudan resmi [TCMB XML servisi](https://www.tcmb.gov.tr/kurlar/today.xml) üzerinden çekilmektedir.
+*   **Kullanım Koşulları:** Veri kullanımıyla ilgili koşullar için lütfen TCMB'nin resmi web sitesini ziyaret ediniz.
+*   **Teşekkür:** Bu veriyi şeffaf bir şekilde kamuya sundukları için **TCMB (Türkiye Cumhuriyet Merkez Bankası)**'na teşekkür ederiz.
+
 ## Lisans
 
 MIT
-
