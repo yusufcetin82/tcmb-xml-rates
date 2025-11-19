@@ -4,6 +4,7 @@ dist
 .env
 coverage
 PRD.md
+PRD-2.md
 *.log
 .idea
 .vscode
