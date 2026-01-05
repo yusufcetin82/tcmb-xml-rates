@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tcmbVeri>
+  <baslik_bilgi>
+    <kod>DV009</kod>
+    <veri_tipi>TCMB 10:00 Kurları</veri_tipi>
+    <veri_tanim>TCMB 10:00 Kurları</veri_tanim>
+    <yayimlayan>TCMB Piyasalar Genel Müdürlüğü - Döviz Piyasaları Müdürlüğü</yayimlayan>
+    <tel>+903125075200-27</tel>
+    <faks>+903125075228</faks>
+    <eposta>dovef@tcmb.gov.tr</eposta>
+    <zaman_etiketi>2026-01-05T10:01:28+03:00</zaman_etiketi>
+  </baslik_bilgi>
+  <doviz_kur_liste gecerlilik_tarihi="2026-1-5" saat="10:00">
+    <kur>
+      <doviz_cinsi_tabani>TRY</doviz_cinsi_tabani>
+      <doviz_cinsi>USD</doviz_cinsi>
+      <birim>1</birim>
+      <alis>43,0443</alis>
+      <sira_no>1</sira_no>
+    </kur>
+    <kur>
+      <doviz_cinsi_tabani>TRY</doviz_cinsi_tabani>
+      <doviz_cinsi>EUR</doviz_cinsi>
+      <birim>1</birim>
+      <alis>44,5678</alis>
+      <sira_no>2</sira_no>
+    </kur>
+    <kur>
+      <doviz_cinsi_tabani>TRY</doviz_cinsi_tabani>
+      <doviz_cinsi>GBP</doviz_cinsi>
+      <birim>1</birim>
+      <alis>53,1234</alis>
+      <sira_no>3</sira_no>
+    </kur>
+    <kur>
+      <doviz_cinsi_tabani>TRY</doviz_cinsi_tabani>
+      <doviz_cinsi>CHF</doviz_cinsi>
+      <birim>1</birim>
+      <alis>47,8901</alis>
+      <sira_no>4</sira_no>
+    </kur>
+    <kur>
+      <doviz_cinsi_tabani>TRY</doviz_cinsi_tabani>
+      <doviz_cinsi>XAU</doviz_cinsi>
+      <birim>1</birim>
+      <alis>6115,17</alis>
+      <sira_no>9999</sira_no>
+    </kur>
+    <kur>
+      <doviz_cinsi_tabani>TRY</doviz_cinsi_tabani>
+      <doviz_cinsi>XAS</doviz_cinsi>
+      <birim>1</birim>
+      <alis>71,45</alis>
+      <sira_no>9998</sira_no>
+    </kur>
+  </doviz_kur_liste>
+</tcmbVeri>

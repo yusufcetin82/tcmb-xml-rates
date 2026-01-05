@@ -1,6 +1,6 @@
 {
   "name": "tcmb-xml-rates",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "A modern, type-safe TCMB (Central Bank of Turkey) XML exchange rates client for Node.js and Next.js with built-in caching and last business day fallback.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
